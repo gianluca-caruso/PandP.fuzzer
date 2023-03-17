@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean @default(false)
+  User      User    @relation(fields: [emailUser], references: [email], onUpdate: Cascade, onDelete: Cascade)
+  emailUser String
+}
+
+model Injection {
+  id          Int     @id @default(autoincrement())
+  placeholder String
+  occurrences String? //json
+  file        String?
+  text        String?
+  regex       String?
+  outputRegex String?
+  sizeRegex   Int?
+  Fuzz        Fuzz?   @relation(fields: [idFuzzer], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  idFuzzer    Int?
+
+  @@unique([placeholder, idFuzzer], name: "PlaceholderFuzzerID")
+}
+
+model Fuzz {
+  id         Int         @id @default(autoincrement())
+  name       String
+  rawRequest String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now())
+  injections Injection[]
+  User       User?       @relation(fields: [userEmail], references: [email], onDelete: Cascade, onUpdate: Cascade)
+  userEmail  String?
+
+  @@unique([name, userEmail], name: "UserFuzzerID")
+}
+
+model Settings {
+  id          Int    @id @default(autoincrement())
+  theme       String @default("system")
+  apiKey      String @default("#")
+  URLEndpoint String @default("http://localhost:8080")
+  User        User[]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  fuzzs         Fuzz[]
+  settings      Settings? @relation(fields: [settingsId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  settingsId    Int?
+  posts         Post[]
+}
+
+// if strategy in next-auth is setup on "database"
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
