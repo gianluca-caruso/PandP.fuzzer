@@ -13,7 +13,7 @@ PandP: fuzzer uses the OWASP ZAP REST API to allow us to create fuzzers with the
 ## Working
 Once we have configured the settings to connect to the API endpoint, we can create our fuzzer and send it to ZAP.
 To do so we can use zest script loading so that, once we have a match on the reflected of the request, the script will be generated and sent automatically and we would only have to worry about starting it in OWASP ZAP.
-___
+
 >The application is working but still in work in progress....
 
  <img src="./public/utils/work-in-progress.png" width="30%"/>
