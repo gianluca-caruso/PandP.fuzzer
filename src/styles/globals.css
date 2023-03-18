@@ -30,8 +30,12 @@
 ::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background: #ccc;
+    cursor: pointer;
 }
 
+::-webkit-scrollbar-corner{
+    background: local;
+}
 ::-webkit-scrollbar-thumb:hover {
     background: #999;
 }

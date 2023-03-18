@@ -12,7 +12,7 @@ import PaginationComponent from "../pagination";
 import SearchBar from "../search";
 import Table from "../table";
 import Tooltip from "../tooltip";
-import { EditModalInjection } from "./injection/injection";
+import EditModalInjection from "./injection/edit";
 
 export interface IModalInjection { }
 

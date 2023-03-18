@@ -7,13 +7,14 @@ import { Injection } from "@/model/fuzz";
 import { FC, useCallback, useContext, useState, HTMLAttributes, useEffect } from "react";
 import Modal from "..";
 import Tab from "../../tab";
-import File from './file';
-import Placeholder from "./placeholder";
-import Regex from "./regex";
-import Text from './text';
+import File from './components/file';
+import Placeholder from "./components/placeholder";
+import Regex from "./components/regex";
+import Text from './components/text';
 
 
-
+export * as EditModalInjection from "./edit";
+export * as CreateModalInjection from "./create";
 
 export interface IModalInjection {
     isOpenInjection: boolean
@@ -79,67 +80,5 @@ const ModalInjection: FC<IModalInjection> = ({ id, cb, isOpenInjection, openInje
         </Modal>
     );
 }
-
-export const CreateModalInjection: FC = () => {
-
-    const { isOpenInjection, openInjection } = useContext(FuzzerCtx);
-    const { file, clear, placeholder, regex, text, outputRegex, isValidPlaceholder } = useInjection();
-    const { addInjection, updateReq } = useFuzzer();
-
-
-    const cb = () => {
-        updateReq();
-        addInjection({
-            occurrences: placeholder.occurences.filter((e, i) => placeholder.occurencesCheck[i]),
-            payload: [],
-            placeholder: placeholder.placeholder,
-            outputRegex,
-            file,
-            regex: regex.regex,
-            sizeRegex: regex.size,
-            text
-        });
-        clear();
-        openInjection(false);
-    }
-
-    return (
-        <ModalInjection {...{ title: "Create injection", id: "modal-injection", cb, isOpenInjection, openInjection }} />
-    );
-}
-
-
-export const EditModalInjection: FC<{ placeholder: string, _cb: () => void }> = ({ placeholder: _placeholder, _cb }) => {
-
-    const { isOpenEditInjection, openEditInjection } = useContext(FuzzerCtx);
-    const { file, clear, placeholder, regex, text, set, outputRegex } = useInjection();
-    const { updateInjection } = useFuzzer();
-
-
-    const cb = () => {
-
-        updateInjection({
-            occurrences: placeholder.occurences.filter((e, i) => placeholder.occurencesCheck[i]),
-            payload: [],
-            placeholder: placeholder.placeholder,
-            file,
-            regex: regex.regex,
-            sizeRegex: regex.size,
-            outputRegex,
-            text
-        }, _placeholder)
-            .then((data) => {
-                clear();
-                openEditInjection(false);
-                _cb();
-            });
-
-    }
-
-    return (
-        <ModalInjection {...{ title: "Edit injection", id: "edit-modal-injection", cb, isOpenInjection: isOpenEditInjection, openInjection: openEditInjection }} />
-    );
-}
-
 
 export default ModalInjection;

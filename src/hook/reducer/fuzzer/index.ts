@@ -1,8 +1,8 @@
 import { AlertEnum } from '@/components/alert';
 import { useAlert } from '@/hook/global';
 import { useAppDispatch, useAppSelector } from '@/hook/reducer';
-import { Fuzzer as IFuzzer, Injection, InjectionValidator } from '@/model/fuzz';
-import { clear, set, setId, setInjections, setName, setRawReq, buildPayloadInjections } from '@/reducer/features/fuzzer/fuzzer.slice';
+import { Fuzzer as IFuzzer, Injection } from '@/model/fuzz';
+import { buildPayloadInjections, clear, set, setId, setInjections, setName, setRawReq } from '@/reducer/features/fuzzer/fuzzer.slice';
 import { trpc } from '@/utils/trpc';
 import { useRespFuzzer } from './response';
 

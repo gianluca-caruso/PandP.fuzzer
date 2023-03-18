@@ -1,26 +1,20 @@
-import BottomDrawerFuzzer from "@/components/drawer/fuzzer";
-import { FuzzerComponents } from "@/components/fuzzer";
+import FuzzerComponents from "@/components/fuzzer";
 import FuzzerMenu from "@/components/menu/fuzzer";
 import RequestFuzzer from "@/components/mockup/fuzzer";
 import ResponseFuzzer from "@/components/mockup/fuzzer/response";
-import { CreateModalInjection } from "@/components/modal/injection/injection";
-import ModalInjections from "@/components/modal/injections";
-import { FuzzerCtx, WrapFuzzer } from "@/context/fuzzer";
+import { WrapFuzzer } from "@/context/fuzzer";
 import { useFuzzer } from "@/hook/reducer/fuzzer";
 import { useRespFuzzer } from "@/hook/reducer/fuzzer/response";
 import { Fuzzer as IFuzzer } from "@/model/fuzz";
 import { parseInjections } from "@/utils/db/fuzzer";
 import { prismaExec } from "@/utils/prisma";
 import { GetServerSideProps, NextPage } from "next";
-import { getServerSession } from "next-auth";
-import { FC, useCallback, useContext, useEffect } from "react";
+import { getServerSession } from "next-auth/next";
+import { useLayoutEffect, useEffect } from "react";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 
-
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
 
     const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
@@ -51,28 +45,40 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             permanent: true,
         }
     };
-}
+};
 
 
 interface Props {
     fuzzer: IFuzzer
 }
 
-const Fuzzer: NextPage<Props> = ({ fuzzer }) => {
 
-    const { setState } = useFuzzer();
-    const { clear } = useRespFuzzer();
-    const { isOpenHarFuzzer, isOpenInjection, isOpenInjections } = useContext(FuzzerCtx);
+const useInitFuzzer = (fuzzer: IFuzzer) => {
+
+    const { setState:setStateFuzzer, clear: clearFuzzer } = useFuzzer();
+    const { clear: clearRespFuzzer } = useRespFuzzer();
 
 
     useEffect(() => {
-        fuzzer && clear() && setState(fuzzer);
+        fuzzer && setStateFuzzer(fuzzer);
+
+        return () => {
+            clearFuzzer();
+            clearRespFuzzer();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fuzzer]);
 
+}
+
+
+const Fuzzer: NextPage<Props> = ({ fuzzer }) => {
+
+    useInitFuzzer(fuzzer);
+
     return (
         <WrapFuzzer>
-            <div className="flex felx-row justify-center gap-2 max-lg:min-h-screen lg:h-4/5  max-lg:flex-col w-full p-2">
+            <div className="flex felx-row justify-center gap-2 max-lg:min-h-screen lg:h-4/5 max-lg:flex-col w-full p-2">
                 <div className="flex w-[47%] max-lg:min-h-screen">
                     <RequestFuzzer />
                 </div>
