@@ -82,6 +82,7 @@ export const useFuzzer = () => {
     const updateInjection = (injection: Injection, placeholder: string) => fuzzerUpdateInjection.mutateAsync({ injection, name: fuzzer.name, placeholder });
     const addInjection = (injection: Injection) => fuzzerAddInjection.mutate({ name: fuzzer.name, injection });
 
+    const refresh = async () => refreshFuzzer.mutateAsync(fuzzer.name);
 
     return {
         //crud
@@ -102,6 +103,7 @@ export const useFuzzer = () => {
         setRawReq: (req: string) => dispatch(setRawReq(req)),
         setInjections: (injections: Injection[]) => dispatch(setInjections(injections)),
         clear: () => dispatch(clear()),
+        refresh,
     };
 
 }

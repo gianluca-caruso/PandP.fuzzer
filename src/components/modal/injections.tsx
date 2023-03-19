@@ -21,7 +21,7 @@ const ModalInjections: FC<IModalInjection> = () => {
 
 
     const { isOpenInjections, isOpenEditInjection, openEditInjection, openInjections } = useContext(FuzzerCtx);//modal controls
-    const { state: { name }, removeInjection, updateReq } = useFuzzer(); //fuzzer
+    const { state: { name }, removeInjection, updateReq,refresh:refreshFuzzer } = useFuzzer(); //fuzzer
     const { next, pagination, prec, setLen } = usePagination(4); //pagination 
     const injections = trpc.fuzzer.injection.injections.useMutation({ onSuccess: (data) => Array.isArray(data) && setLen(data.length) });//trpc
     const { set: setGlobalInjection, clear, placeholder } = useInjection();
@@ -42,15 +42,18 @@ const ModalInjections: FC<IModalInjection> = () => {
         await removeInjection(placeholder);
         // refresh
         await injections.mutateAsync({ name, pagination });
+        await refreshFuzzer();
+        
     }
 
 
 
-    const onEdit = (injection: Injection) => {
+    const onEdit = async (injection: Injection) => {
         updateReq();
         setGlobalInjection(injection);
         setPlaceholder(injection.placeholder);
         openEditInjection(true);
+        await refreshFuzzer();
     }
 
     useEffect(() => {
@@ -63,7 +66,7 @@ const ModalInjections: FC<IModalInjection> = () => {
     return (
         <>
             <Modal id="modal-injections" isOpen={isOpenInjections} set={openInjections} className="min-w-max">
-                <Modal.Title>injections</Modal.Title>
+                <Modal.Title>Injections</Modal.Title>
                 <Modal.Body className="overflow-auto scrollbar-hide h-[300px] w-max">
                     <SearchBar className="focus-within:bg-base-300 w-max">
                         <SearchBar.Button onClick={() => injections.mutate({ name, pagination, search })} />

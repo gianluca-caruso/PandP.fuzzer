@@ -33,7 +33,7 @@ const RequestFuzzer: FC = ({ }) => {
                 <textarea
                     value={state.rawRequest}
                     onChange={({ currentTarget: { value } }) => setRawReq(value)}
-                    className="text-base whitespace-nowrap font-mono focus:outline-none outline-none bg-inherit textarea resize-none w-full m-2" spellCheck={false} >
+                    className="scrollbar-hide text-base whitespace-nowrap font-mono focus:outline-none outline-none bg-inherit textarea resize-none w-full m-2" spellCheck={false} >
                 </textarea>
             </div>
             <Mockup.Actions className="justify-end gap-2 tooltip-left">

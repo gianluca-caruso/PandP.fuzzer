@@ -5,7 +5,7 @@ import { JsxElement } from "typescript";
 // sub componets
 export const Title: FC<IReactComponentChildren> = ({ children }) => {
     return (
-        <h3 className="font-bold text-lg">{children}</h3>
+        <h3 className="font-bold text-lg capitalize">{children}</h3>
     );
 }
 
