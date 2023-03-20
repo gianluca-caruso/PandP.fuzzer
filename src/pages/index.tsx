@@ -28,7 +28,7 @@ const Index: NextPage<{ csrfToken: string }> = ({ csrfToken }) => {
   const { onSearch, setSearch, search, pagination, next, prec, fuzzers, onSelect, selectedItems, onUpdate, onCreate, onRemove } = useFuzzers();
 
 
-  if (status === "unauthenticated") {
+  if (status === "unauthenticated" || status === "loading") {
     return (
       <Container>
         <Auth />

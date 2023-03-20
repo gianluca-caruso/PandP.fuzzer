@@ -23,7 +23,7 @@ import { Account, Session } from "@prisma/client";
 
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma), // Configure adapter
-    secret: "buhrr2nhWS5t/JUL8pXDZRyBvevGDj0ImGAbo1tnL5I=", //for production , "openssl rand -base64 32"
+    /* secret: "buhrr2nhWS5t/JUL8pXDZRyBvevGDj0ImGAbo1tnL5I=", */ //for production , "openssl rand -base64 32"
     providers: [ // Configure one or more authentication providers
         GooogleProvider({
             name: "Google",
@@ -61,7 +61,7 @@ export const authOptions: AuthOptions = {
             type: "credentials",
             credentials: { // custom
                 email: { label: "email", type: "email", placeholder: "jsmith@email.com" },
-                password: { label: "Password", type: "password", placeholder: "******" }
+                password: { label: "Password", type: "password", placeholder: "******" },
             },
             async authorize(credentials, req) {
 
@@ -83,7 +83,7 @@ export const authOptions: AuthOptions = {
     jwt: {
         secret: process.env.SECRET
     },
-    useSecureCookies: process.env.NODE_ENV && process.env.NODE_ENV === 'production',
+    //useSecureCookies: process.env.NODE_ENV && process.env.NODE_ENV === 'production',
     pages: {
         //signIn: '/auth/signin',  // Displays signin buttons
         // signOut: '/auth/signout', // Displays form with sign out button

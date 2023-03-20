@@ -22,14 +22,31 @@ _____
 
 # Getting Started
 
+dev
+```console
+npm install
+npx prisma init
+npx prisma migrate dev --name init
+npm run dev -- -H 127.0.0.1
+```
+
+production
+```console
+npm install
+npx prisma init
+npx prisma migrate dev --name init
+npm run build
+npm run start -- -H 127.0.0.1
+```
+> change .env variables, especially **SECRET** ,**NEXTAUTH_URL**,**NEXTAUTH_SECRET** for production.\
+> don't use `http://localhost:{PORT}` for NEXTAUTH_URL instead use `http://127.0.0.0.1:{PORT}`
+
 ## Next.js
 
 install package.json
 ```console
 $ npm install 
 ```
->In `package.json` it is possible to change **port** and **host** application .
-> change .env variables, especially **secret** ,**NEXTAUTH_URL**,**NEXTAUTH_SECRET** for production.
 > if You use providers such as Google, Apple, etc... You can setup **strategy** in api/auth/[...nextauth.ts] on ``database`` rather than ``jwt``
 
 run in dev mode
@@ -46,6 +63,10 @@ $ npm start
 ```
 ____
 ## Prisma
+init 
+```console
+$ npx prisma init
+```
 migrate db
 ```console
 $ npx prisma migrate dev --name {name}
