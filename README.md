@@ -25,7 +25,6 @@ _____
 dev
 ```console
 npm install
-npx prisma init
 npx prisma migrate dev --name init
 npm run dev -- -H 127.0.0.1
 ```
@@ -33,7 +32,6 @@ npm run dev -- -H 127.0.0.1
 production
 ```console
 npm install
-npx prisma init
 npx prisma migrate dev --name init
 npm run build
 npm run start -- -H 127.0.0.1
@@ -63,10 +61,6 @@ $ npm start
 ```
 ____
 ## Prisma
-init 
-```console
-$ npx prisma init
-```
 migrate db
 ```console
 $ npx prisma migrate dev --name {name}
