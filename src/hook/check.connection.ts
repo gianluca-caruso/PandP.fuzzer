@@ -17,10 +17,17 @@ export const useCheckConnection = (): [isConn: boolean | null, onClick: () => vo
         enabled: false,
         onSuccess(data) {
             setIsConn(data);
-            setAlert({
-                msg: "successful connection",
-                type: AlertEnum.info
-            });
+            if (data){
+                setAlert({
+                    msg: "successful connection",
+                    type: AlertEnum.info
+                });
+            }else{
+                setAlert({
+                    msg: "error connection",
+                    type: AlertEnum.error
+                });
+            }
         },
         onError(err) {
             setAlert({
