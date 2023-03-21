@@ -1,12 +1,7 @@
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 import CreateAccount from "public/register/create-account.png";
 import SignIn from 'public/register/sign-in.png';
-import Logo from 'public/zap.svg';
-import Image from "next/image";
-import Bg from "../bg";
-import Footer from "../footer";
-
-
 
 
 const Auth = () => (
@@ -20,7 +15,7 @@ const Auth = () => (
                 </div>
                 <div className="divider">OR</div>
                 <div className="flex flex-col justify-center items-center gap-2">
-                    <Link className="btn w-3/4" href="/api/auth/signin">Sign In</Link>
+                    <Link className="btn w-3/4" href="/api/auth/signin/?csrf=true">Sign In</Link>
                     <Image src={SignIn} alt={"sign-in"} className="w-[20%] self-center" />
                 </div>
             </div>
